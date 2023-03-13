@@ -4,6 +4,7 @@ import errorMiddleware from './middlewares/error.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 dotenv.config({ path: "./config/config.env" })
 
@@ -16,6 +17,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(cookieParser())
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}))
 
 
 //Routes
@@ -28,6 +34,10 @@ app.use('/api/v1', courseRoutes)
 app.use('/api/v1', userRoutes)
 app.use('/api/v1', paymentRoutes)
 app.use('/api/v1', extraRoutes)
+
+app.get('/', (req, resp, next) => {
+    resp.send("Welcome to Online Course Project ")
+})
 
 
 
