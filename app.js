@@ -7,8 +7,8 @@ import cookieParser from 'cookie-parser'
 
 dotenv.config({ path: "./config/config.env" })
 app.use(cors({
-	credentials: true,
-    origin: "http://localhost:3000",
+    credentials: true,
+    origin: process.env.FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
 //config database
@@ -35,7 +35,7 @@ app.use('/api/v1', paymentRoutes)
 app.use('/api/v1', extraRoutes)
 
 app.get('/', (req, resp, next) => {
-    resp.send("Welcome to Online Course Project ")
+    resp.send(`Welcome to Online Course Project click to view frontend <a href="${process.env.FRONTEND_URL}">Click Here</a>`)
 })
 
 
