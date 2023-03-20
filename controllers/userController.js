@@ -98,7 +98,9 @@ export const loginUser = catchAsyncError(async (req, resp, next) => {
 export const logout = catchAsyncError(async (req, resp, next) => {
     const options = {
         expires: new Date(Date.now()),
-        httpOnly: true
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
     }
     resp.status(200).cookie('token', null, options).json({
         success: true,
@@ -351,7 +353,9 @@ export const deleteMyProfile = catchAsyncError(async (req, resp, next) => {
     await user.deleteOne()
     const options = {
         expires: new Date(Date.now()),
-        httpOnly: true
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
     }
 
 
@@ -361,6 +365,7 @@ export const deleteMyProfile = catchAsyncError(async (req, resp, next) => {
     })
 
 })
+
 
 User.watch().on("change", async () => {
     const stats = await Stats.find({}).sort({ createdAt: "Desc" }).limit(1)
