@@ -35,7 +35,7 @@ app.use('/api/v1', paymentRoutes)
 app.use('/api/v1', extraRoutes)
 
 app.get('/', (req, resp, next) => {
-    resp.send(`Welcome to Online Course Project click to view frontend <a href="${process.env.FRONTEND_URL}">Click Here</a>`)
+    resp.send(`Welcome to Online Course Project by Satwant Singh. click to view frontend <a href="${process.env.FRONTEND_URL}">Click Here</a>`)
 })
 
 
