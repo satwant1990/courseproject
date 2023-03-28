@@ -36,7 +36,7 @@ export const createSubscription = catchAsyncError(async (req, resp, next) => {
 
 //Payment Verify
 export const paymentVerification = catchAsyncError(async (req, resp, next) => {
-    const { razorpay_signature, razorpay_payment_id, rezorpay_subscription_id } = req.body
+    const { razorpay_signature, razorpay_payment_id, razorpay_subscription_id } = req.body
     const user = await User.findById(req.user.id)
     const subscription_id = user.subscription.id;
     const generate_signature = crypto.createHmac("sha256", process.env.RAZORPAY_API_SECERT).update(razorpay_payment_id + "|" + subscription_id, "utf-8").digest("hex")
@@ -45,11 +45,10 @@ export const paymentVerification = catchAsyncError(async (req, resp, next) => {
     if (!isAuth) {
         resp.redirect(`${process.env.FRONTEND_URL}/paymentfail`)
     }
-
     await Payment.create({
         razorpay_signature,
         razorpay_payment_id,
-        rezorpay_subscription_id
+        razorpay_subscription_id
     })
 
     user.subscription.status = 'active'
@@ -76,12 +75,12 @@ export const cancelSubscription = catchAsyncError(async (req, resp, next) => {
     const subscriptionId = user.subscription.id;
 
     let refund = false;
+	
 
     await instance.subscriptions.cancel(subscriptionId);
     const payment = await Payment.findOne({
-        rezorpay_subscription_id: subscriptionId
+        razorpay_subscription_id: subscriptionId
     })
-
     const subscriptionGap = Date.now() - payment.createdAt
 
     const refundDays = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000

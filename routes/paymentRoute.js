@@ -7,7 +7,7 @@ const router = express.Router()
 router.route('/subscribe').get(isAuthenticated, createSubscription)
 
 router.route('/paymentverification').post(isAuthenticated, paymentVerification)
-router.route('/razorpaykey').get(isAuthenticated, getRazorpayKey)
+router.route('/razorpaykey').get(getRazorpayKey)
 
 //Cancel Subscription
 router.route('/subscribe/cancel').delete(isAuthenticated, cancelSubscription)
